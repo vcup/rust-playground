@@ -1,0 +1,14 @@
+[package]
+name = 'dump_av_info'
+version = '0.1.0'
+edition = '2021'
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package.metadata.vcpkg]
+dependencies = ['ffmpeg']
+git = "https://github.com/microsoft/vcpkg"
+rev = "53bef8994c541b6561884a8395ea35715ece75db"
+
+[dependencies]
+rsmpeg = "0.14.2"
