@@ -6,7 +6,7 @@ edition = '2021'
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [package.metadata.vcpkg]
-dependencies = ['ffmpeg']
+dependencies = ['ffmpeg[openssl]']
 git = "https://github.com/microsoft/vcpkg"
 rev = "53bef8994c541b6561884a8395ea35715ece75db"
 
