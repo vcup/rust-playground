@@ -1,5 +1,5 @@
 [package]
-name = 'dump_av_info'
+name = 'rsmpeg-dump_av_info'
 version = '0.1.0'
 edition = '2021'
 

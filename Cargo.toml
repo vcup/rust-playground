@@ -2,5 +2,7 @@
 
 resolver = '2'
 members = [
-  'rsmpeg/dump_av_info'
+  'rsmpeg/dump_av_info',
+
+  'ratatui/hello_world',
 ]
