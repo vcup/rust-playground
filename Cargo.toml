@@ -5,4 +5,6 @@ members = [
   'rsmpeg/dump_av_info',
 
   'ratatui/hello_world',
+
+  'rust-async/timer_future',
 ]
