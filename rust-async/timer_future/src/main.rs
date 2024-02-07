@@ -48,7 +48,7 @@ fn new_executor_and_spawner() -> (Executor, Spawner) {
 }
 
 impl Spawner {
-    fn spawn(&self, future: impl Future<Output = ()> + 'static + Send) {
+    fn spawn(&self, future: impl Future<Output=()> + 'static + Send) {
         let future = future.boxed();
         let task = Arc::new(Task {
             future: Mutex::new(Some(future)),
@@ -104,6 +104,14 @@ fn main() {
         TimerFuture::new(Duration::new(2, 0)).await;
         println!("done!");
     });
+    // 1. Spawner::spawn call task_sender.send to schedule the task
+    // 2. future that passed into Spawner::spawn will poll by executor with context
+    // 3. run into TimerFuture::new(...), and .await it
+    // 4. .await will call TimerFuture::poll with same context
+    // 5. TimerFuture completed, will call the context.waker.wake()
+    // 6. WakerRef will call ArcWake::wake_by_ref of Task, it will schedule again
+    // 7. executor poll again the future that passed into Spawner::spawn
+    // 8. continue to execute codes that after .await
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
