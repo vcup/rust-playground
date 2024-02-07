@@ -18,8 +18,8 @@ impl Future for TimerFuture {
     type Output = ();
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let mut shared_state = self.shared_state.lock().unwrap();
-        if (shared_state.completed) {
-            Poll::Ready(());
+        if shared_state.completed {
+            Poll::Ready(())
         } else {
             shared_state.waker = Some(cx.waker().clone());
             Poll::Pending
@@ -35,10 +35,10 @@ impl TimerFuture {
         }));
         let thread_shared_state = Arc::clone(&shared_state);
         thread::spawn(move || {
-            thread::sleep(thread_shared_state);
+            thread::sleep(duration);
             let mut shared_state = thread_shared_state.lock().unwrap();
             shared_state.completed = true;
-            if let Some(waker) = shared_state.waker {
+            if let Some(waker) = shared_state.waker.take() {
                 waker.wake()
             }
         });
